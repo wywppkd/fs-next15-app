@@ -1,0 +1,15 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/app/generated/prisma" // 指定生成的 Prisma Client 的输出目录(新版Prisma建议这样做)
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id   Int     @id @default(autoincrement())
+  name String?
+  age  Int?
+}
