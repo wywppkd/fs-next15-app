@@ -10,14 +10,10 @@ export async function GET() {
   });
 }
 
-// 定义请求体的 Zod Schema
 const deleteUserSchema = z.object({
   id: z.number().int().positive({ message: "ID 必须是正整数" }),
-  // 可以添加更多字段进行测试
-  // name: z.string().min(1, { message: "名字不能为空" }),
 });
 
-// 根据id删除用户: id 在请求体中
 export async function DELETE(request: NextRequest) {
   try {
     const body = await request.json();
