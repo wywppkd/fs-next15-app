@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "attractions" ALTER COLUMN "longitude" DROP NOT NULL,
+ALTER COLUMN "latitude" DROP NOT NULL,
+ALTER COLUMN "start_time" DROP NOT NULL,
+ALTER COLUMN "end_time" DROP NOT NULL,
+ALTER COLUMN "ticket_price" DROP NOT NULL;

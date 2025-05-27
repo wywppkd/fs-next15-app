@@ -8,8 +8,111 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model user {
-  id   Int     @id @default(autoincrement())
-  name String?
-  age  Int?
+// model user {
+//   id   Int     @id @default(autoincrement())
+//   name String?
+//   age  Int?
+// }
+
+/**
+ * 景点表
+ */
+model Attraction {
+  /**
+   * 景点唯一标识，自增主键
+   */
+  id              Int                @id @default(autoincrement())
+  
+  /**
+   * 景点名称
+   */
+  name            String             @unique
+  
+  /**
+   * 关联景点类型ID
+   */
+  typeId          Int                @map("type_id")
+  
+  /**
+   * 景点详细地址
+   */
+  address         String?
+  
+  /**
+   * 景点经度坐标
+   */
+  longitude       Decimal?            @db.Decimal(10, 6)
+  
+  /**
+   * 景点纬度坐标
+   */
+  latitude        Decimal?            @db.Decimal(10, 6)
+  
+  /**
+   * 景点简介信息
+   */
+  introduction    String?             @db.Text
+
+  /**
+   * 开放开始时间（格式：HH:MM）
+   */
+  startTime       String?             @map("start_time")
+  
+  /**
+   * 开放结束时间（格式：HH:MM）
+   */
+  endTime         String?             @map("end_time")
+  
+  
+  /**
+   * 门票价格 JSON 数组
+   */
+  ticketPrice    Decimal?               @map("ticket_price") @db.Decimal(10, 2)
+  
+
+  /**
+   * 记录创建时间
+   */
+  createTime      DateTime           @default(now()) @map("create_time")
+  
+  /**
+   * 记录更新时间
+   */
+  updateTime      DateTime           @default(now()) @updatedAt @map("update_time")
+  
+  // 关联关系
+  type            AttractionType     @relation(fields: [typeId], references: [id])
+
+  @@map("attractions")
+}
+
+
+/**
+ * 景点类型表
+ */
+model AttractionType {
+  /**
+   * 类型ID，自增主键
+   */
+  id              Int                @id @default(autoincrement())
+  
+  /**
+   * 类型名称（如"历史古迹","自然风光","主题公园"）
+   */
+  name            String             @unique
+
+  /**
+   * 记录创建时间
+   */
+  createTime      DateTime           @default(now()) @map("create_time")
+
+  /**
+   * 记录更新时间
+   */
+  updateTime      DateTime           @default(now()) @updatedAt @map("update_time")
+  
+  // 关联关系：一对多（一个类型对应多个景点）
+  attractions     Attraction[]
+
+  @@map("attraction_types")
 }
